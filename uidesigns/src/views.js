@@ -539,7 +539,7 @@ export function renderUsers(state) {
       rightExtras: '',
     })}
     <section class="screen-content">
-      <div class="metrics-grid metrics-grid-five">${metrics.map(metricCard).join('')}</div>
+      <div class="metrics-grid">${metrics.map(metricCard).join('')}</div>
       <article class="panel">
         <div class="table-toolbar">
           ${toolbarSearch('Cari nama atau email...')}
