@@ -130,59 +130,95 @@ svg {
   margin-top: auto;
   border-top: 1px solid #d9e2ee;
   padding: 16px;
+  position: relative;
 }
 
-.support-card {
+.profile-menu-shell {
+  position: relative;
+}
+
+.profile-menu-trigger {
+  width: 100%;
   display: grid;
   grid-template-columns: auto 1fr auto;
   gap: 12px;
   align-items: center;
+  border: 1px solid #d7e0eb;
+  cursor: pointer;
   padding: 14px 12px;
   border-radius: 12px;
   background: white;
   color: #344054;
 }
 
-.support-card strong,
-.support-card span {
+.profile-menu-copy strong,
+.profile-menu-copy span {
   display: block;
+  text-align: left;
 }
 
-.support-card strong {
+.profile-menu-copy strong {
   font-size: 0.9rem;
 }
 
-.support-card span {
+.profile-menu-copy span {
   font-size: 0.76rem;
   color: #667085;
 }
 
-.support-avatar {
+.profile-menu-avatar {
   width: 30px;
   height: 30px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: 999px;
-  background: linear-gradient(180deg, #eef6ff, #d8eaff);
+  border: 1px solid #bfd5f7;
+  background: linear-gradient(180deg, #fdf3e1, #e8f2ff);
+  color: #1d4b90;
+  font-size: 0.76rem;
+  font-weight: 800;
 }
 
-.support-chevron {
+.profile-menu-chevron {
   width: 16px;
   height: 16px;
   color: #667085;
 }
 
-.signout-button {
+.profile-menu-dropdown {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 10px);
+  z-index: 25;
+  min-width: 100%;
+  padding: 8px;
+  border: 1px solid #d7e0eb;
+  border-radius: 14px;
+  background: white;
+  box-shadow: 0 18px 42px rgba(15, 23, 42, 0.12);
+}
+
+.profile-menu-item {
+  width: 100%;
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-top: 12px;
+  gap: 10px;
   border: 0;
+  border-radius: 10px;
   background: transparent;
-  color: #ff4b4b;
+  color: #344054;
   padding: 10px 12px;
-  font-weight: 600;
+  text-align: left;
+}
+
+.profile-menu-item:hover,
+.profile-menu-trigger:hover {
+  background: #f7fbff;
+}
+
+.profile-menu-item-danger {
+  color: #ff5b5b;
 }
 
 .workspace {
@@ -613,6 +649,89 @@ svg {
   flex-wrap: wrap;
 }
 
+.filter-dropdown {
+  position: relative;
+}
+
+.sales-dropdown-trigger {
+  min-width: 190px;
+  justify-content: space-between;
+}
+
+.sales-dropdown-label,
+.sales-dropdown-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sales-dropdown-badge {
+  max-width: 110px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.filter-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 20;
+  min-width: 220px;
+  padding: 8px;
+  border: 1px solid #d7e0eb;
+  border-radius: 14px;
+  background: white;
+  box-shadow: 0 18px 42px rgba(15, 23, 42, 0.12);
+}
+
+.filter-option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: #344054;
+  text-align: left;
+}
+
+.filter-option:hover {
+  background: #f7fbff;
+}
+
+.filter-option-check {
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #d7e0eb;
+  border-radius: 5px;
+  color: transparent;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.filter-option-active {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.filter-option-active .filter-option-check {
+  border-color: #3182f6;
+  background: #3182f6;
+  color: white;
+}
+
 .ghost-button,
 .primary-button {
   font-weight: 700;
@@ -762,6 +881,10 @@ svg {
 }
 
 .panel-alert {
+  padding-bottom: 18px;
+}
+
+.panel-with-footer-action {
   padding-bottom: 18px;
 }
 

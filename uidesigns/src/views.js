@@ -1,17 +1,14 @@
 import {
-  avatar,
   barChart,
   donutChart,
   heatMap,
   icon,
-  iconButton,
   lineChart,
   metricCard,
   panelHeader,
   progressBar,
   statusBadge,
   toolbarSearch,
-  toolbarSelect,
   topbar,
 } from './components'
 
@@ -68,6 +65,18 @@ const users = [
   },
 ]
 
+const SALES_FILTER_OPTIONS = {
+  category: ['Pengembangan', 'Desain', 'Bisnis', 'Pemasaran', 'Data Sains'],
+  timeRange: ['7 Hari Terakhir', '30 Hari Terakhir', '90 Hari Terakhir', 'Tahun Ini'],
+  location: ['Indonesia', 'Singapura', 'Malaysia', 'Filipina', 'Vietnam'],
+}
+
+const ENGAGEMENT_FILTER_OPTIONS = {
+  category: ['UI/UX', 'Pemrograman', 'Bisnis', 'Data', 'Pemasaran'],
+}
+
+const HEADER_FILTER_OPTIONS = ['7 Hari Terakhir', '30 Hari Terakhir', '90 Hari Terakhir', 'Tahun Ini']
+
 function segmented(labels) {
   return `
     <div class="segmented">
@@ -78,19 +87,139 @@ function segmented(labels) {
   `
 }
 
-function footerStatCard(iconName, title, description, accent = '') {
+function salesFilterDropdown(key, label, iconName, state) {
+  const selected = state.salesFilters[key]
+  const selectionMeta =
+    selected.length === 0 ? '' : selected.length === 1 ? selected[0] : `${selected.length} dipilih`
+  const open = state.openSalesDropdown === key
+
   return `
-    <article class="highlight-card ${accent}">
-      <span class="metric-icon">${icon(iconName)}</span>
-      <div>
-        <small>${title}</small>
-        <strong>${description}</strong>
-      </div>
-    </article>
+    <div class="filter-dropdown ${open ? 'filter-dropdown-open' : ''}">
+      <button class="toolbar-chip sales-dropdown-trigger" data-sales-dropdown="${key}">
+        <span class="sales-dropdown-label">
+          <span class="button-icon">${icon(iconName)}</span>
+          <span>${label}</span>
+        </span>
+        <span class="sales-dropdown-meta">
+          ${selectionMeta ? `<span class="sales-dropdown-badge">${selectionMeta}</span>` : ''}
+          <span class="toolbar-chevron">${icon('chevron')}</span>
+        </span>
+      </button>
+      ${
+        open
+          ? `
+            <div class="filter-dropdown-menu">
+              ${SALES_FILTER_OPTIONS[key]
+                .map((option) => {
+                  const active = selected.includes(option)
+                  return `
+                    <button
+                      class="filter-option ${active ? 'filter-option-active' : ''}"
+                      data-sales-option="${key}"
+                      data-sales-value="${option}"
+                    >
+                      <span class="filter-option-check">${active ? '✓' : ''}</span>
+                      <span>${option}</span>
+                    </button>
+                  `
+                })
+                .join('')}
+            </div>
+          `
+          : ''
+      }
+    </div>
   `
 }
 
-export function renderOverview() {
+function engagementFilterDropdown(key, label, state) {
+  const selected = state.engagementFilters[key]
+  const selectionMeta =
+    selected.length === 0 ? '' : selected.length === 1 ? selected[0] : `${selected.length} dipilih`
+  const open = state.openEngagementDropdown === key
+
+  return `
+    <div class="filter-dropdown ${open ? 'filter-dropdown-open' : ''}">
+      <button class="toolbar-chip sales-dropdown-trigger" data-engagement-dropdown="${key}">
+        <span class="sales-dropdown-label">
+          <span>${label}</span>
+        </span>
+        <span class="sales-dropdown-meta">
+          ${selectionMeta ? `<span class="sales-dropdown-badge">${selectionMeta}</span>` : ''}
+          <span class="toolbar-chevron">${icon('chevron')}</span>
+        </span>
+      </button>
+      ${
+        open
+          ? `
+            <div class="filter-dropdown-menu">
+              ${ENGAGEMENT_FILTER_OPTIONS[key]
+                .map((option) => {
+                  const active = selected.includes(option)
+                  return `
+                    <button
+                      class="filter-option ${active ? 'filter-option-active' : ''}"
+                      data-engagement-option="${key}"
+                      data-engagement-value="${option}"
+                    >
+                      <span class="filter-option-check">${active ? '✓' : ''}</span>
+                      <span>${option}</span>
+                    </button>
+                  `
+                })
+                .join('')}
+            </div>
+          `
+          : ''
+      }
+    </div>
+  `
+}
+
+function headerFilterDropdown(key, state) {
+  const selected = state.headerFilters[key]
+  const open = state.openHeaderDropdown === key
+
+  return `
+    <div class="filter-dropdown ${open ? 'filter-dropdown-open' : ''}">
+      <button class="toolbar-chip sales-dropdown-trigger" data-header-dropdown="${key}">
+        <span class="sales-dropdown-label">
+          <span class="button-icon">${icon('calendar')}</span>
+          <span>Rentang Waktu</span>
+        </span>
+        <span class="sales-dropdown-meta">
+          <span class="sales-dropdown-badge">${selected}</span>
+          <span class="toolbar-chevron">${icon('chevron')}</span>
+        </span>
+      </button>
+      ${
+        open
+          ? `
+            <div class="filter-dropdown-menu">
+              ${HEADER_FILTER_OPTIONS
+                .map((option) => {
+                  const active = selected === option
+                  return `
+                    <button
+                      class="filter-option ${active ? 'filter-option-active' : ''}"
+                      data-header-option="${key}"
+                      data-header-value="${option}"
+                    >
+                      <span class="filter-option-check">${active ? '✓' : ''}</span>
+                      <span>${option}</span>
+                    </button>
+                  `
+                })
+                .join('')}
+            </div>
+          `
+          : ''
+      }
+    </div>
+  `
+}
+
+export function renderOverview(state) {
   const metrics = [
     { label: 'Total Pendapatan', value: 'Rp 35,4M', change: '+12,5%', iconName: 'wallet' },
     { label: 'Total Transaksi', value: '12.540', change: '+5,2%', iconName: 'card' },
@@ -103,8 +232,8 @@ export function renderOverview() {
   return `
     ${topbar({
       title: 'Ringkasan Dasbor',
-      leftExtras: toolbarSelect('30 Hari Terakhir'),
-      rightExtras: `${toolbarSearch('Cari analitik...')}${iconButton('bell')}${iconButton('settings')}${avatar('AD')}`,
+      leftExtras: headerFilterDropdown('overview', state),
+      rightExtras: '',
     })}
     <section class="screen-content">
       <div class="metrics-grid metrics-grid-six">${metrics.map(metricCard).join('')}</div>
@@ -179,7 +308,7 @@ export function renderOverview() {
             </tbody>
           </table>
         </article>
-        <article class="panel">
+        <article class="panel panel-with-footer-action">
           ${panelHeader('Aktivitas Terbaru', 'Kejadian transaksi dan platform terkini')}
           <div class="activity-list">
             ${[
@@ -205,16 +334,11 @@ export function renderOverview() {
           <button class="ghost-button block-button">Lihat Log Lengkap</button>
         </article>
       </div>
-      <div class="highlight-grid">
-        ${footerStatCard('activity', 'Pendapatan Terbesar', 'Kategori Pengembangan', 'highlight-blue')}
-        ${footerStatCard('users', 'Kanal Teratas', 'Pencarian Organik (Google)', 'highlight-muted')}
-        ${footerStatCard('clock', 'Waktu Terpopuler', '19:00 - 21:00 WIB', 'highlight-light')}
-      </div>
     </section>
   `
 }
 
-export function renderSales() {
+export function renderSales(state) {
   const metrics = [
     { label: 'TOTAL PENDAPATAN', value: 'Rp 8,4M', change: '+12.5%', iconName: 'wallet' },
     { label: 'PERTUMBUHAN', value: '18.2%', change: '+4.3%', iconName: 'activity' },
@@ -225,17 +349,16 @@ export function renderSales() {
   return `
     ${topbar({
       title: 'Kinerja Penjualan',
-      leftExtras: toolbarSelect('30 Hari Terakhir'),
-      rightExtras: '<button class="ghost-button inline-button"><span class="button-icon">' + icon('download') + '</span>Ekspor Laporan</button>' + avatar('AD'),
+      leftExtras: headerFilterDropdown('sales', state),
+      rightExtras: '',
     })}
     <section class="screen-content">
       <div class="toolbar-row panel">
         <div class="toolbar-row-left">
-          <button class="toolbar-chip"><span class="button-icon">${icon('book')}</span>Kategori: Semua<span class="toolbar-chevron">${icon('chevron')}</span></button>
-          <button class="toolbar-chip"><span class="button-icon">${icon('globe')}</span>Negara: Indonesia<span class="toolbar-chevron">${icon('chevron')}</span></button>
-          <button class="toolbar-chip"><span class="button-icon">${icon('filter')}</span>Saluran: Langsung<span class="toolbar-chevron">${icon('chevron')}</span></button>
+          ${salesFilterDropdown('category', 'Kategori Produk', 'book', state)}
+          ${salesFilterDropdown('location', 'Lokasi', 'globe', state)}
         </div>
-        <button class="link-button small-link">Hapus Filter</button>
+        <button class="primary-button inline-primary" data-sales-reset="true">Reset</button>
       </div>
       <div class="metrics-grid">${metrics.map(metricCard).join('')}</div>
       <article class="panel">
@@ -269,7 +392,7 @@ export function renderSales() {
   `
 }
 
-export function renderTransactions() {
+export function renderTransactions(state) {
   const metrics = [
     { label: 'TOTAL TRANSAKSI', value: '14,280', change: '+8.2%', iconName: 'transactions' },
     { label: 'TINGKAT REFUND', value: '0.82%', change: '-0.1%', tone: 'down', iconName: 'transactions' },
@@ -280,8 +403,8 @@ export function renderTransactions() {
   return `
     ${topbar({
       title: 'Riwayat Transaksi',
-      leftExtras: `<button class="toolbar-pill month-pill"><span>Mei 2024</span><span class="toolbar-chevron">${icon('chevron')}</span></button>`,
-      rightExtras: `${toolbarSearch('Cari ID transaksi atau nama...')}<button class="ghost-button inline-button"><span class="button-icon">${icon('download')}</span>Ekspor</button>`,
+      leftExtras: headerFilterDropdown('transactions', state),
+      rightExtras: '',
     })}
     <section class="screen-content">
       <div class="metrics-grid">${metrics.map(metricCard).join('')}</div>
@@ -329,7 +452,7 @@ export function renderTransactions() {
   `
 }
 
-export function renderEngagement() {
+export function renderEngagement(state) {
   const metrics = [
     { label: 'TINGKAT PENYELESAIAN', value: '68.4%', change: '+2.5%', iconName: 'book' },
     { label: 'WAKTU PENYELESAIAN', value: '14 Hari', change: '-1 Hari', tone: 'down', iconName: 'clock' },
@@ -340,16 +463,16 @@ export function renderEngagement() {
   return `
     ${topbar({
       title: 'Analisis Keterlibatan Pelajar',
-      rightExtras: `${toolbarSelect('30 Hari Terakhir')}<span class="hello-admin">Halo, Admin</span>${avatar('HA')}`,
+      leftExtras: headerFilterDropdown('engagement', state),
+      rightExtras: '',
     })}
     <section class="screen-content">
       <div class="toolbar-row panel">
         <div class="toolbar-row-left">
           <span class="filter-inline"><span class="button-icon">${icon('filter')}</span>Filter:</span>
-          <button class="toolbar-chip">Kategori Kursus<span class="toolbar-chevron">${icon('chevron')}</span></button>
-          <button class="toolbar-chip">Status Kohort<span class="toolbar-chevron">${icon('chevron')}</span></button>
+          ${engagementFilterDropdown('category', 'Kategori Kursus', state)}
         </div>
-        <button class="primary-button inline-primary">Terapkan Filter</button>
+        <button class="primary-button inline-primary" data-engagement-reset="true">Reset</button>
       </div>
       <div class="metrics-grid">${metrics.map(metricCard).join('')}</div>
       <div class="content-grid content-grid-engagement">
@@ -397,19 +520,19 @@ export function renderEngagement() {
   `
 }
 
-export function renderUsers() {
+export function renderUsers(state) {
   const metrics = [
     { label: 'Total Pengguna', value: '120.450', change: '+12%', iconName: 'users' },
     { label: 'Pengguna Baru (Bulan Ini)', value: '4.520', change: '+5.4%', iconName: 'users' },
     { label: 'Pengguna Berbayar', value: '18.230', change: '+8.1%', iconName: 'arrowUp' },
-    { label: 'Pengguna Berhenti (Churn)', value: '2.105', change: '-2.4%', tone: 'down', iconName: 'arrowDown' },
+    { label: 'Pengguna Tidak Aktif', value: '2.105', change: '-2.4%', tone: 'down', iconName: 'arrowDown' },
   ]
 
   return `
     ${topbar({
       title: 'Daftar Pengguna & Segmen',
-      leftExtras: toolbarSelect('Last 30 Days') + segmented(['Exec', 'Product', 'Instructor']),
-      rightExtras: `${toolbarSearch('Search analytics...')}${iconButton('bell')}${iconButton('settings')}${avatar('BS')}`,
+      leftExtras: headerFilterDropdown('users', state),
+      rightExtras: '',
     })}
     <section class="screen-content">
       <div class="metrics-grid">${metrics.map(metricCard).join('')}</div>
@@ -419,7 +542,6 @@ export function renderUsers() {
           <div class="table-toolbar-actions">
             <button class="ghost-button inline-button"><span class="button-icon">${icon('filter')}</span>Filter</button>
             <button class="ghost-button inline-button"><span class="button-icon">${icon('download')}</span>Ekspor CSV</button>
-            <button class="primary-button inline-primary"><span class="button-icon">${icon('plus')}</span>Tambah Baru</button>
           </div>
         </div>
         <table class="simple-table users-table">
@@ -456,12 +578,12 @@ export function renderUsers() {
   `
 }
 
-export function renderUserDetail() {
+export function renderUserDetail(state) {
   return `
     ${topbar({
       title: 'Detail Profil Pengguna',
-      leftExtras: toolbarSelect('Last 30 Days') + segmented(['Exec', 'Product', 'Instructor']),
-      rightExtras: `${toolbarSearch('Search analytics...')}${iconButton('bell')}${iconButton('settings')}${avatar('BS')}`,
+      leftExtras: headerFilterDropdown('userDetail', state) + segmented(['Exec', 'Product', 'Instructor']),
+      rightExtras: '',
     })}
     <section class="screen-content">
       <div class="detail-grid">
