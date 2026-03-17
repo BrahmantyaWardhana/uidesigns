@@ -251,10 +251,10 @@ export function renderOverview(state) {
           ${panelHeader('Kursus Terpopuler', 'Berdasarkan total volume penjualan')}
           <div class="popular-list">
             ${[
-              ['Dasar Pemrograman Python', '1240 Unit Terjual', 'Rp 558.0M', '#3182f6'],
-              ['Desain UI/UX Modern', '980 Unit Terjual', 'Rp 441.0M', '#2ea99b'],
-              ['Manajemen Bisnis Digital', '850 Unit Terjual', 'Rp 382.5M', '#294a5d'],
-              ['Pemasaran Media Sosial', '720 Unit Terjual', 'Rp 324.0M', '#e5bc58'],
+              ['Masterclass React Modern', '450 Unit Terjual', 'Rp 1.2M', '#3182f6'],
+              ['UI/UX Design Essentials', '380 Unit Terjual', 'Rp 950jt', '#2ea99b'],
+              ['Python untuk Data Science', '310 Unit Terjual', 'Rp 880jt', '#294a5d'],
+              ['Strategi Digital Marketing', '280 Unit Terjual', 'Rp 620jt', '#e5bc58'],
             ]
               .map(
                 ([title, sub, value, color]) => `

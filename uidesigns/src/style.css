@@ -547,6 +547,11 @@ svg {
   color: #1b2430;
 }
 
+.popular-item strong,
+.popular-item span {
+  display: block;
+}
+
 .popular-item span,
 .activity-copy p,
 .activity-copy small,
