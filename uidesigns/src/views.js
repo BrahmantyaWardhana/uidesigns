@@ -240,11 +240,11 @@ export function renderOverview(state) {
       <div class="metrics-grid metrics-grid-six">${metrics.map(metricCard).join('')}</div>
       <div class="content-grid content-grid-featured">
         <article class="panel span-two">
-          ${panelHeader('Tren Pendapatan & Transaksi', 'Statistik mingguan periode saat ini', '<button class="ghost-button">Ekspor Laporan</button>')}
+          ${panelHeader('Tren Pendapatan 30 Hari', 'Ringkasan performa pendapatan per minggu dalam 30 hari terakhir', '<button class="ghost-button">Ekspor Laporan</button>')}
           ${lineChart({
-            values: [4000, 2900, 2000, 2800, 1900, 2300, 3500],
-            labels: ['Minggu 1', 'Minggu 2', 'Minggu 3', 'Minggu 4', 'Minggu 5', 'Minggu 6', 'Minggu 7'],
-            yLabels: ['4000', '3000', '2000', '1000', '0'],
+            values: [6.4, 7.1, 5.8, 8.3],
+            labels: ['Minggu 1', 'Minggu 2', 'Minggu 3', 'Minggu 4'],
+            yLabels: ['Rp 9jt', 'Rp 6jt', 'Rp 3jt', 'Rp 0jt'],
           })}
         </article>
         <article class="panel">
