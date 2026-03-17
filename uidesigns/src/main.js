@@ -111,7 +111,6 @@ function renderApp() {
           </footer>
         </div>
       </div>
-      <div class="made-with">Made with <span>V</span></div>
     </div>
   `
 }
