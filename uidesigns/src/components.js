@@ -130,9 +130,9 @@ export function lineChart({ values, labels, yLabels, fill = 'rgba(49, 130, 246, 
   `
 }
 
-export function barChart(labels, values) {
-  const max = Math.max(...values)
-  const rows = [0, 155, 310, 465, 620]
+export function barChart(labels, values, options = {}) {
+  const rows = options.rows ?? [0, 155, 310, 465, 620]
+  const max = options.max ?? Math.max(...values)
   return `
     <div class="bar-chart">
       <div class="bar-axis">
@@ -165,6 +165,28 @@ export function barChart(labels, values) {
   `
 }
 
+export function sideBarChart(items, max = 100) {
+  return `
+    <div class="side-bar-chart">
+      ${items
+        .map(
+          ({ label, value }) => `
+            <div class="side-bar-item">
+              <div class="side-bar-head">
+                <strong>${label}</strong>
+                <span>${value}%</span>
+              </div>
+              <div class="side-bar-track">
+                <span class="side-bar-fill" style="width:${(value / max) * 100}%"></span>
+              </div>
+            </div>
+          `,
+        )
+        .join('')}
+    </div>
+  `
+}
+
 export function heatMap() {
   const levels = [
     [4, 2, 1, 4, 2, 1, 4],
@@ -179,6 +201,7 @@ export function heatMap() {
   return `
     <div class="heatmap">
       <div class="heatmap-hours">
+        <span class="heatmap-hours-spacer" aria-hidden="true"></span>
         <span>00:00</span><span>04:00</span><span>08:00</span><span>12:00</span><span>16:00</span><span>20:00</span>
       </div>
       <div class="heatmap-grid">
@@ -195,10 +218,10 @@ export function heatMap() {
       </div>
       <div class="heatmap-legend">
         <span>Sepi</span>
-        <div class="heatmap-legend-dots">
-          <span class="heatmap-cell heat-1"></span>
-          <span class="heatmap-cell heat-2"></span>
-          <span class="heatmap-cell heat-4"></span>
+        <div class="heatmap-legend-scale" aria-hidden="true">
+          <span class="heatmap-legend-step heat-1"></span>
+          <span class="heatmap-legend-step heat-2"></span>
+          <span class="heatmap-legend-step heat-4"></span>
         </div>
         <span>Ramai</span>
       </div>

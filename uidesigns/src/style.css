@@ -387,6 +387,10 @@ svg {
   grid-template-columns: repeat(6, minmax(0, 1fr));
 }
 
+.metrics-grid-five {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
 .metric-card {
   padding: 20px;
 }
@@ -844,6 +848,50 @@ svg {
   color: #4a5568;
 }
 
+.side-bar-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 18px 24px 24px;
+}
+
+.side-bar-item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.side-bar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.side-bar-head strong {
+  color: #1b2430;
+}
+
+.side-bar-head span {
+  color: #4a5568;
+  font-weight: 700;
+}
+
+.side-bar-track {
+  width: 100%;
+  height: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #ebf1f7;
+}
+
+.side-bar-fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #3182f6, #4294ff);
+}
+
 .stack-panels {
   display: flex;
   flex-direction: column;
@@ -925,10 +973,19 @@ svg {
 }
 
 .heatmap-hours {
-  grid-template-columns: 38px repeat(7, 1fr);
+  grid-template-columns: 38px repeat(6, minmax(0, 1fr));
   margin-bottom: 10px;
   color: #677489;
   font-size: 0.78rem;
+  align-items: center;
+}
+
+.heatmap-hours span {
+  text-align: center;
+}
+
+.heatmap-hours-spacer {
+  text-align: left;
 }
 
 .heatmap-grid {
@@ -961,9 +1018,16 @@ svg {
   font-size: 0.8rem;
 }
 
-.heatmap-legend-dots {
+.heatmap-legend-scale {
   display: flex;
-  gap: 6px;
+  align-items: center;
+  gap: 8px;
+}
+
+.heatmap-legend-step {
+  width: 28px;
+  height: 10px;
+  border-radius: 999px;
 }
 
 .activity-item,
@@ -1268,6 +1332,12 @@ svg {
   .detail-grid,
   .highlight-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 1180px) {
+  .metrics-grid-five {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 

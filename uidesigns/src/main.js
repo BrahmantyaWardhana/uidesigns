@@ -50,7 +50,7 @@ const state = {
   salesFilters: {
     category: ['Pengembangan'],
     timeRange: ['30 Hari Terakhir'],
-    location: ['Indonesia'],
+    location: ['Jakarta'],
   },
   engagementFilters: {
     category: ['Pemrograman'],
@@ -84,7 +84,7 @@ function renderSidebar() {
       <div class="brand">
         <span class="brand-icon">${icon('logo')}</span>
         <div>
-          <p class="brand-name">E-Learn Analytics</p>
+          <p class="brand-name">CDL Analytics</p>
         </div>
       </div>
       <nav class="sidebar-nav">
@@ -140,7 +140,7 @@ function renderApp() {
         <div class="workspace">
           ${currentScreenMarkup()}
           <footer class="dashboard-footer">
-            <span>© 2024 E-Learn Analytics Dashboard. All systems operational.</span>
+            <span>© 2024 CDL Analytics Dashboard. All systems operational.</span>
             <div>
               <a href="#">Privacy Policy</a>
               <a href="#">Terms of Service</a>

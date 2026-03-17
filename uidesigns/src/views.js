@@ -7,6 +7,7 @@ import {
   metricCard,
   panelHeader,
   progressBar,
+  sideBarChart,
   statusBadge,
   toolbarSearch,
   topbar,
@@ -68,7 +69,7 @@ const users = [
 const SALES_FILTER_OPTIONS = {
   category: ['Pengembangan', 'Desain', 'Bisnis', 'Pemasaran', 'Data Sains'],
   timeRange: ['7 Hari Terakhir', '30 Hari Terakhir', '90 Hari Terakhir', 'Tahun Ini'],
-  location: ['Indonesia', 'Singapura', 'Malaysia', 'Filipina', 'Vietnam'],
+  location: ['Jakarta', 'Surabaya', 'Bandung', 'Medan', 'Yogyakarta'],
 }
 
 const ENGAGEMENT_FILTER_OPTIONS = {
@@ -222,11 +223,11 @@ function headerFilterDropdown(key, state) {
 export function renderOverview(state) {
   const metrics = [
     { label: 'Total Pendapatan', value: 'Rp 35,4M', change: '+12,5%', iconName: 'wallet' },
-    { label: 'Total Transaksi', value: '12.540', change: '+5,2%', iconName: 'card' },
+    { label: 'Total Penjualan', value: '12.540', change: '+5,2%', iconName: 'sales' },
     { label: 'Tingkat Konversi', value: '3,21%', change: '-0,4%', tone: 'down', iconName: 'activity' },
-    { label: 'Rata-rata Pesanan', value: 'Rp 2,8JT', change: '+2,1%', iconName: 'sales' },
-    { label: 'Siswa Aktif', value: '45.200', change: '+8,9%', iconName: 'users' },
-    { label: 'Waktu Penyelesaian', value: '14 Hari', change: '-1,5%', tone: 'down', iconName: 'clock' },
+    { label: 'Total Peserta', value: '45.200', change: '+8,9%', iconName: 'users' },
+    { label: 'Total Kursus', value: '124', change: '+2,1%', iconName: 'book' },
+    { label: 'Rata-rata Waktu Penyelesaian', value: '14 Hari', change: '-1,5%', tone: 'down', iconName: 'clock' },
   ]
 
   return `
@@ -342,8 +343,9 @@ export function renderSales(state) {
   const metrics = [
     { label: 'TOTAL PENDAPATAN', value: 'Rp 8,4M', change: '+12.5%', iconName: 'wallet' },
     { label: 'PERTUMBUHAN', value: '18.2%', change: '+4.3%', iconName: 'activity' },
-    { label: 'LTV KOHORT', value: 'Rp 4,5jt', change: '-2.1%', tone: 'down', iconName: 'users' },
-    { label: 'TINGKAT REFUND', value: '1.24%', change: '-0.1%', tone: 'down', iconName: 'filter' },
+    { label: 'TOTAL PESERTA', value: '18.230', change: '+6.8%', iconName: 'users' },
+    { label: 'TOTAL KURSUS', value: '124', change: '+3.2%', iconName: 'book' },
+    { label: 'TOTAL PENJUALAN', value: '2.640', change: '+8.9%', iconName: 'sales' },
   ]
 
   return `
@@ -360,7 +362,7 @@ export function renderSales(state) {
         </div>
         <button class="primary-button inline-primary" data-sales-reset="true">Reset</button>
       </div>
-      <div class="metrics-grid">${metrics.map(metricCard).join('')}</div>
+      <div class="metrics-grid metrics-grid-five">${metrics.map(metricCard).join('')}</div>
       <article class="panel">
         ${panelHeader('Tren Pendapatan Bulanan', 'Analisis performa keuangan harian selama November 2024', segmented(['Pendapatan', 'Langganan']))}
         ${lineChart({
@@ -373,13 +375,13 @@ export function renderSales(state) {
         <article class="panel">
           ${panelHeader('Performa Kursus Terbaik', '', '<button class="link-button small-link">Lihat Semua</button>')}
           <table class="simple-table course-table">
-            <thead><tr><th>NAMA KURSUS</th><th>TERJUAL</th><th>KONVERSI</th><th>PENDAPATAN</th><th>STATUS</th></tr></thead>
+            <thead><tr><th>NAMA KURSUS</th><th>TERJUAL</th><th>KONVERSI</th><th>PENDAPATAN</th></tr></thead>
             <tbody>
-              <tr><td>Masterclass React Modern</td><td>450</td><td>4.2%</td><td>Rp 1.2M</td><td>${statusBadge('Populer', 'blue')}</td></tr>
-              <tr><td>UI/UX Design Essentials</td><td>380</td><td>3.8%</td><td>Rp 950jt</td><td>${statusBadge('Stabil')}</td></tr>
-              <tr><td>Python untuk Data Science</td><td>310</td><td>5.1%</td><td>Rp 880jt</td><td>${statusBadge('Meningkat')}</td></tr>
-              <tr><td>Strategi Digital Marketing</td><td>280</td><td>2.9%</td><td>Rp 620jt</td><td>${statusBadge('Stabil')}</td></tr>
-              <tr><td>Dasar Pemrograman Go</td><td>190</td><td>3.1%</td><td>Rp 410jt</td><td>${statusBadge('Baru')}</td></tr>
+              <tr><td>Masterclass React Modern</td><td>450</td><td>4.2%</td><td>Rp 1.2M</td></tr>
+              <tr><td>UI/UX Design Essentials</td><td>380</td><td>3.8%</td><td>Rp 950jt</td></tr>
+              <tr><td>Python untuk Data Science</td><td>310</td><td>5.1%</td><td>Rp 880jt</td></tr>
+              <tr><td>Strategi Digital Marketing</td><td>280</td><td>2.9%</td><td>Rp 620jt</td></tr>
+              <tr><td>Dasar Pemrograman Go</td><td>190</td><td>3.1%</td><td>Rp 410jt</td></tr>
             </tbody>
           </table>
         </article>
@@ -455,9 +457,9 @@ export function renderTransactions(state) {
 export function renderEngagement(state) {
   const metrics = [
     { label: 'TINGKAT PENYELESAIAN', value: '68.4%', change: '+2.5%', iconName: 'book' },
-    { label: 'WAKTU PENYELESAIAN', value: '14 Hari', change: '-1 Hari', tone: 'down', iconName: 'clock' },
-    { label: 'SESI PER PELAJAR', value: '12.4', change: '+0.8', iconName: 'activity' },
-    { label: 'DURASI BELAJAR', value: '18 Min', change: '-2 Min', tone: 'down', iconName: 'info' },
+    { label: 'RATA-RATA WAKTU PENYELESAIAN', value: '14 Hari', change: '-1 Hari', tone: 'down', iconName: 'clock' },
+    { label: 'TOTAL JAM BELAJAR', value: '12.4K Jam', change: '+0.8%', iconName: 'activity' },
+    { label: 'RATA-RATA JAM BELAJAR / MINGGU', value: '18 Jam', change: '-2 Jam', tone: 'down', iconName: 'info' },
   ]
 
   return `
@@ -477,12 +479,14 @@ export function renderEngagement(state) {
       <div class="metrics-grid">${metrics.map(metricCard).join('')}</div>
       <div class="content-grid content-grid-engagement">
         <article class="panel">
-          ${panelHeader('Corong Penurunan Pelajar per Pelajaran', 'Persentase pelajar yang melanjutkan ke tahap berikutnya')}
-          ${lineChart({
-            values: [100, 92, 85, 78, 69, 64, 61],
-            labels: ['Bab 1', 'Bab 2', 'Bab 3', 'Bab 4', 'Bab 5', 'Bab 6', 'Selesai'],
-            yLabels: ['100%', '75%', '50%', '25%', '0%'],
-          })}
+          ${panelHeader('Tingkat Penyelesaian per Kursus', 'Perbandingan persentase penyelesaian antar kursus aktif')}
+          ${sideBarChart([
+            { label: 'UI/UX Design Essentials', value: 84 },
+            { label: 'Masterclass React Modern', value: 79 },
+            { label: 'Python untuk Data Science', value: 73 },
+            { label: 'Strategi Digital Marketing', value: 68 },
+            { label: 'Manajemen Proyek Agile', value: 61 },
+          ])}
         </article>
         <article class="panel">
           ${panelHeader('Waktu Akses Terpopuler', 'Intensitas aktivitas pelajar (24 jam)')}
@@ -493,12 +497,12 @@ export function renderEngagement(state) {
         <article class="panel">
           ${panelHeader('Pelajaran Perlu Perhatian', 'Pelajaran dengan tingkat berhenti tertinggi', statusBadge('Butuh Perbaikan', 'red'))}
           <table class="simple-table at-risk-table">
-            <thead><tr><th>Judul Pelajaran</th><th>Tingkat Berhenti</th><th>Alasan Utama</th></tr></thead>
+            <thead><tr><th>Judul Pelajaran</th><th>Tingkat Penyelesaian</th><th>Pengguna Terdaftar</th></tr></thead>
             <tbody>
-              <tr><td>Dasar Pemrograman Python</td><td class="negative-text">32%</td><td>Kuis Terlalu Sulit</td></tr>
-              <tr><td>Arsitektur Cloud Lanjutan</td><td class="negative-text">28%</td><td>Video Terlalu Panjang</td></tr>
-              <tr><td>Manajemen Proyek Agile</td><td class="negative-text">25%</td><td>Materi Kurang Jelas</td></tr>
-              <tr><td>Desain UI Modern</td><td class="negative-text">22%</td><td>Butuh Contoh Praktis</td></tr>
+              <tr><td>Dasar Pemrograman Python</td><td>68%</td><td>1.240</td></tr>
+              <tr><td>Arsitektur Cloud Lanjutan</td><td>72%</td><td>980</td></tr>
+              <tr><td>Manajemen Proyek Agile</td><td>75%</td><td>860</td></tr>
+              <tr><td>Desain UI Modern</td><td>78%</td><td>1.120</td></tr>
             </tbody>
           </table>
         </article>
@@ -523,7 +527,7 @@ export function renderEngagement(state) {
 export function renderUsers(state) {
   const metrics = [
     { label: 'Total Pengguna', value: '120.450', change: '+12%', iconName: 'users' },
-    { label: 'Pengguna Baru (Bulan Ini)', value: '4.520', change: '+5.4%', iconName: 'users' },
+    { label: 'Pengguna Baru', value: '4.520', change: '+5.4%', iconName: 'users' },
     { label: 'Pengguna Berbayar', value: '18.230', change: '+8.1%', iconName: 'arrowUp' },
     { label: 'Pengguna Tidak Aktif', value: '2.105', change: '-2.4%', tone: 'down', iconName: 'arrowDown' },
   ]
@@ -535,7 +539,7 @@ export function renderUsers(state) {
       rightExtras: '',
     })}
     <section class="screen-content">
-      <div class="metrics-grid">${metrics.map(metricCard).join('')}</div>
+      <div class="metrics-grid metrics-grid-five">${metrics.map(metricCard).join('')}</div>
       <article class="panel">
         <div class="table-toolbar">
           ${toolbarSearch('Cari nama atau email...')}
